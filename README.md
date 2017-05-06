@@ -1,52 +1,42 @@
-This repo is a proof-of-concept for bunding an Angular application with Google Closure Compiler.
+[![CircleCI](https://circleci.com/gh/alexeagle/closure-compiler-angular-bundling/tree/master.svg?style=shield)](https://circleci.com/gh/alexeagle/closure-compiler-angular-bundling/tree/master)
+
+
+This repo is the demo/seed for bunding an Angular application with Google Closure Compiler.
 It contains a minimal Hello World application with a single component.
 
-This example app builds a *single* `.js` file for an Angular 2 application.
-No other scripts are needed (eg. zone.js)
+**The compressed JS size for an Angular 4.0.1 Hello World app is 36kb.**
 
-The current size is:
 ```
--rw-r--r--  1 alexeagle  eng  120236 Dec 16 16:20 dist/bundle.js
--rw-------  1 alexeagle  eng   31768 Dec 16 16:20 dist/bundle.js.brotli
--rw-r--r--  1 alexeagle  eng   36585 Dec 16 16:20 dist/bundle.js.gz
+-rw-r--r--  1 alexeagle  eng  28932 Apr  7 13:19 dist/bundle.js.brotli
+-rw-r--r--  1 alexeagle  eng  33110 Apr  7 13:19 dist/bundle.js.gz
+-rw-------  1 alexeagle  eng  7717 Apr  7 13:19 node_modules/zone.js/dist/zone.min.js.brotli
+-rw-r--r--  1 alexeagle  eng  8621 Feb 17 10:21 node_modules/zone.js/dist/zone.min.js.gz
 ```
-
-At NgConf'16 we announced a 21.6k bundle, but this did not include zone.js.
-The `angular2-polyfills.min.js` file from that era was 28k, so the total JS
-payload for an Angular app was about 50k.
-So as of December 2016 we have a 32% reduction in total payload.
 
 See https://github.com/angular/angular/issues/8550 for more context.
 
 # Try it
 
 ``` shell
-$ npm install
-$ npm run build
-$ python -m SimpleHTTPServer
+$ yarn install
+$ yarn run build
+$ yarn run serve
 ```
 
 ## Where does the size come from?
 
 ``` shell
-$ npm run explore
+$ yarn run explore
 ```
 
 # Notes
 
-This requires an ES6 distro of Angular.
-I have published my own personal snapshot, which is built from this branch:
-https://github.com/alexeagle/angular/tree/closure
+Requires Node >= 6.x since the `ngc` tool (and its deps) are now shipped as ES6 as well.
 
-See package.json for how this is used in the demo.
-
-Requires Node 6.x since the `ngc` tool (and its deps) are now shipped as ES6 as well.
-
-Requires building rxjs from https://github.com/alexeagle/rxjs/tree/closure2
-using `npm run compile_dist_es6_for_closure`. Copy this into the `vendor` directory.
+Requires Java installed to run the Closure Compiler. We recommend installing http://zulu.org/download-dev/.
 
 ## TODO
-- Get an official Angular distro with ES6, don't use my branch.
-- Need rxjs to produce a closure-compatible ES6 distro, don't use my branch.
-- Remove the hack of needing node_modules/rxjs for nodejs and vendor/rxjs for browser
+- Remove the dependency on locally-installed Java: https://github.com/google/closure-compiler/issues/2412
+- Allow comments in the closure.conf file https://github.com/google/closure-compiler/issues/2413
+- Solve closure bug with rxjs files w/o exports https://github.com/google/closure-compiler/issues/2247
 - Extend the demo to use a 3rd party component, like @angular/material

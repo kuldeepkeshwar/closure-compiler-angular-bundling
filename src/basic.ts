@@ -1,5 +1,4 @@
-
-import {Component, Injectable} from '@angular/core/index';
+import {Component, Injectable} from '@angular/core';
 
 @Component({
   selector: 'basic',
@@ -8,5 +7,7 @@ import {Component, Injectable} from '@angular/core/index';
 @Injectable()
 export class Basic {
   ctxProp: string;
-  constructor() { this.ctxProp = 'initial value'; }
+  constructor() {
+    this.ctxProp = `Hello World`;
+  }
 }
